@@ -19,8 +19,14 @@ export const COMPANY = {
   city: "Galle, Sri Lanka",
 };
 
+/** Sub-path the site is served from (e.g. "/Yacht-Galle-website" on GitHub Pages); empty at a domain root. */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+/** URL for a file in /public. Next.js doesn't prefix plain paths with basePath, so do it here. */
+export const asset = (path: string) => `${BASE_PATH}${path}`;
+
 /** The detailed 3D model served from /public. Rebuild it with `npm run model:build`. */
-export const MODEL_URL = "/models/dpv-luxury-yacht-detailed.glb";
+export const MODEL_URL = asset("/models/dpv-luxury-yacht-detailed.glb");
 
 /** Double-wave motif echoing the waves in the logo: a large version (hero, footer) and a small section marker. */
 export const WAVE_PATHS = {

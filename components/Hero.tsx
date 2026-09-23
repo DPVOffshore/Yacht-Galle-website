@@ -1,11 +1,12 @@
 import { Waves } from "./Waves";
 import { Split } from "./Split";
+import { asset } from "@/lib/site";
 
 export default function Hero() {
   return (
     <section className="hero">
       <video className="hero-video" autoPlay muted loop playsInline preload="auto" aria-hidden="true">
-        <source src="/video/hero.mp4" type="video/mp4" />
+        <source src={asset("/video/hero.mp4")} type="video/mp4" />
       </video>
       <div className="wrap">
         <h1 className="display split" data-reveal="words">
