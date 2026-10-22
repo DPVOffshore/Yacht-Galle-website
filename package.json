@@ -1,8 +1,8 @@
 {
-  "name": "dpv-offshore-web",
+  "name": "yacht-club-galle",
   "version": "1.0.0",
   "private": true,
-  "description": "DPV Offshore Marine Services (Pvt) Ltd: yacht refit and repair at Galle Port, with an interactive 3D yacht explorer.",
+  "description": "Yacht Club Galle: a new vision for yachting, marine care and international club connections in Galle, Sri Lanka.",
   "engines": {
     "node": ">=20.9.0"
   },

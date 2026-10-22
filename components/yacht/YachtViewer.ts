@@ -111,15 +111,15 @@ export class YachtViewer {
   private visObs: IntersectionObserver;
 
   private mats = {
-    clay: new THREE.MeshStandardMaterial({ color: 0xf3f6f8, roughness: 0.85, metalness: 0, side: THREE.DoubleSide }),
-    clayInside: new THREE.MeshStandardMaterial({ color: 0xdce3e9, roughness: 0.8, metalness: 0 }),
+    clay: new THREE.MeshStandardMaterial({ color: 0xf2f0e8, roughness: 0.85, metalness: 0, side: THREE.DoubleSide }),
+    clayInside: new THREE.MeshStandardMaterial({ color: 0xdce3d9, roughness: 0.8, metalness: 0 }),
     glow: new THREE.MeshStandardMaterial({
-      color: 0x195c8f, roughness: 0.5, metalness: 0, emissive: 0x195c8f, emissiveIntensity: 0.12, envMapIntensity: 0.3, side: THREE.DoubleSide,
+      color: 0x56776a, roughness: 0.5, metalness: 0, emissive: 0x56776a, emissiveIntensity: 0.12, envMapIntensity: 0.3, side: THREE.DoubleSide,
     }),
     ghost: new THREE.MeshStandardMaterial({
-      color: 0xe4ecf3, roughness: 1, metalness: 0, transparent: true, opacity: 0.1, depthWrite: false, side: THREE.DoubleSide,
+      color: 0xe4e8dd, roughness: 1, metalness: 0, transparent: true, opacity: 0.1, depthWrite: false, side: THREE.DoubleSide,
     }),
-    edge: new THREE.LineBasicMaterial({ color: 0x195c8f, transparent: true, opacity: 0.28, depthWrite: false }),
+    edge: new THREE.LineBasicMaterial({ color: 0x6c8678, transparent: true, opacity: 0.28, depthWrite: false }),
   };
 
   constructor(opts: ViewerOptions) {
@@ -132,7 +132,7 @@ export class YachtViewer {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 0.92;
     this.renderer.shadowMap.enabled = true;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
 
     const pmrem = new THREE.PMREMGenerator(this.renderer);
     this.scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
@@ -181,6 +181,10 @@ export class YachtViewer {
     this.state = { id, xray };
     this.applyMaterials();
     this.flyTo(id ? SERVICES[id].cam : xray ? INSIDE : OVERVIEW);
+  }
+
+  setRotating(rotating: boolean) {
+    this.controls.autoRotate = rotating;
   }
 
   dispose() {

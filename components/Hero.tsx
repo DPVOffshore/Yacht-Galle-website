@@ -1,12 +1,10 @@
 import { Waves } from "./Waves";
 import { Split } from "./Split";
+import HeroSlideshow from "./HeroSlideshow";
 
 export default function Hero() {
   return (
     <section className="hero">
-      <video className="hero-video" autoPlay muted loop playsInline preload="auto" aria-hidden="true">
-        <source src="/video/hero.mp4" type="video/mp4" />
-      </video>
       <div className="wrap">
         <h1 className="display split" data-reveal="words">
           <Split text="Yacht refit and repair" /> <br className="br-lg" />
@@ -30,6 +28,7 @@ export default function Hero() {
         </div>
         <Waves marker="Galle" />
       </div>
+      <HeroSlideshow />
     </section>
   );
 }

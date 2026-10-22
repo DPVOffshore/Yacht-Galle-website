@@ -127,7 +127,7 @@ export const INSIDE: CameraPreset = { pos: [-3, 14, 16], target: [-2.5, 0.2, 0] 
 /** Intro copy shown in the panel when no service is selected. */
 export const PANEL_INTRO = {
   title: "Six disciplines, one team",
-  desc: "From below the waterline to the top of the radar arch, we cover the whole yacht, inside and out. You deal with one team and receive one quote.",
+  desc: "A whole-yacht perspective, from below the waterline to the spaces you live in. Select a discipline to explore the systems and discuss your requirements.",
 };
 
 /** Friendly names shown when hovering a part. Keys are node-name prefixes; the longest match wins. */

@@ -1,16 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { SERVICES, SERVICE_ORDER, PANEL_INTRO, type ServiceId } from "@/lib/services";
 import { MODEL_URL } from "@/lib/site";
-import { Motif } from "@/components/Waves";
-import { Split } from "@/components/Split";
-import { ASK_EVENT } from "@/lib/events";
 import type { YachtViewer, ViewerStatus } from "./YachtViewer";
 
 export default function YachtExplorer() {
   const [selected, setSelected] = useState<ServiceId | null>(null);
   const [xray, setXray] = useState(false);
+  const [rotating, setRotating] = useState(true);
   const [status, setStatus] = useState<ViewerStatus>({ state: "loading", progress: null });
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -20,11 +19,12 @@ export default function YachtExplorer() {
   const headRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLUListElement>(null);
   const viewerRef = useRef<YachtViewer | null>(null);
-  const stateRef = useRef({ selected, xray });
-  stateRef.current = { selected, xray };
+  const stateRef = useRef({ selected, xray, rotating });
+  stateRef.current = { selected, xray, rotating };
 
   /** Tapping the selected service again clears it; picking a part on the model always selects. */
   const select = useCallback((id: ServiceId | null, fromModel = false) => {
+    setRotating(false);
     const current = stateRef.current.selected;
     const next = id && id === current && !fromModel ? null : id;
     if (next) setXray(SERVICES[next].xray);
@@ -34,24 +34,23 @@ export default function YachtExplorer() {
   selectRef.current = select;
 
   const toggleXray = () => {
+    setRotating(false);
     const next = !xray;
     setXray(next);
     if (selected && SERVICES[selected].xray !== next) setSelected(null);
   };
 
   const reset = () => {
+    setRotating(false);
     setXray(false);
     setSelected(null);
-  };
-
-  const ask = () => {
-    window.dispatchEvent(new CustomEvent<ServiceId | null>(ASK_EVENT, { detail: selected }));
   };
 
   // Create the viewer only when the section approaches the viewport; three.js loads on demand.
   useEffect(() => {
     const stage = stageRef.current;
     if (!stage) return;
+    setRotating(!window.matchMedia("(prefers-reduced-motion: reduce)").matches);
     let cancelled = false;
     const io = new IntersectionObserver(
       async ([entry]) => {
@@ -73,6 +72,7 @@ export default function YachtExplorer() {
             onStatus: setStatus,
             getState: () => ({ id: stateRef.current.selected, xray: stateRef.current.xray }),
           });
+          viewerRef.current.setRotating(stateRef.current.rotating);
         } catch {
           setStatus({ state: "error", message: "3D isn't available on this device. The services are listed alongside." });
         }
@@ -98,12 +98,19 @@ export default function YachtExplorer() {
     viewerRef.current?.show(selected, xray);
   }, [selected, xray]);
 
+  useEffect(() => {
+    viewerRef.current?.setRotating(rotating);
+  }, [rotating]);
+
   // On phones the services are a swipeable row; keep the active one in view.
   useEffect(() => {
     if (!selected || !window.matchMedia("(max-width: 1020px)").matches) return;
-    listRef.current
-      ?.querySelector<HTMLButtonElement>(`[data-svc="${selected}"]`)
-      ?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    const list = listRef.current;
+    const button = list?.querySelector<HTMLButtonElement>(`[data-svc="${selected}"]`);
+    if (list && button) list.scrollTo({
+      left: button.offsetLeft - list.offsetLeft - (list.clientWidth - button.offsetWidth) / 2,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   }, [selected]);
 
   const service = selected ? SERVICES[selected] : null;
@@ -114,12 +121,13 @@ export default function YachtExplorer() {
         <canvas
           data-reveal="canvas"
           ref={canvasRef}
+          onPointerDown={() => setRotating(false)}
           role="img"
           aria-label="Interactive 3D model of a motor yacht. Selecting a service highlights the parts it covers."
         />
 
         {status.state !== "ready" && (
-          <div className="stage-status">
+          <div className="stage-status" role="status">
             {status.state === "loading" ? (
               <>
                 <div className="bar" />
@@ -141,14 +149,10 @@ export default function YachtExplorer() {
         <div className="overlay">
           <div className="wrap overlay-inner">
             <header className="ov-head" ref={headRef}>
-              <Motif />
-              <h2 className="display split" id="svc-title" data-reveal="words">
-                <Split text="Tap any part" />
-                <br />
-                <Split text="of the yacht." from={3} />
-              </h2>
-              <p className="lede" data-reveal style={{ "--d": 400 } as React.CSSProperties}>
-                Every system on board, and the work we do on it. Turn the yacht, select a part, or choose a service.
+              <p className="eyebrow">Interactive yacht / 360°</p>
+              <h2 id="svc-title">The art of<br /><em>complete care.</em></h2>
+              <p className="lede">
+                Turn the yacht. Select a part. Discover the care behind every detail.
               </p>
             </header>
 
@@ -173,20 +177,23 @@ export default function YachtExplorer() {
                         <li key={item}>{item}</li>
                       ))}
                     </ul>
-                    <a key={`a-${selected}`} className="btn btn-line" href="#contact" onClick={ask}>
-                      Ask about this service
-                    </a>
+                    <Link key={`a-${selected}`} className="button button-navy" href={`/contact/?service=${selected}`}>
+                      Enquire about this service <span aria-hidden="true">↗</span>
+                    </Link>
                   </>
                 )}
               </div>
             </aside>
 
             <div className="ov-controls" data-stagger>
-              <button className="btn btn-line stage-xray" type="button" aria-pressed={xray} onClick={toggleXray}>
+              <button className="button stage-xray" type="button" aria-pressed={xray} onClick={toggleXray}>
                 {xray ? "Show outside" : "See inside"}
               </button>
-              <button className="btn btn-line stage-reset" type="button" onClick={reset}>
+              <button className="button stage-reset" type="button" onClick={reset}>
                 Show whole yacht
+              </button>
+              <button className="button stage-rotate" type="button" aria-pressed={rotating} onClick={() => setRotating(!rotating)}>
+                {rotating ? "Pause rotation" : "Rotate yacht"}
               </button>
               <p className="stage-hint">Drag to turn the yacht. Tap a part to see the service.</p>
             </div>

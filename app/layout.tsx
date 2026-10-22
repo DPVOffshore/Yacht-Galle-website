@@ -13,12 +13,13 @@ const archivo = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
-  title: "DPV Offshore | Yacht refit and repair at Galle Port, Sri Lanka",
+  title: "Yacht Club Galle | A New Perspective on Life at Sea",
   description:
-    "Hull, engine, electrical, navigation and interior work for yachts calling at Galle Port, Sri Lanka. DPV Offshore Marine Services (Pvt) Ltd.",
+    "Discover the Yacht Club Galle vision: yacht care, marine expertise and international club connections on Sri Lanka’s southern coast.",
   openGraph: {
-    title: "DPV Offshore | Yacht refit and repair at Galle Port",
-    description: "Hull, engine, electrical, navigation and interior work for yachts calling at Galle, by one accountable team.",
+    title: "Yacht Club Galle | A New Perspective on Life at Sea",
+    description: "A new chapter in yachting at Galle. Discover our vision for owners, captains and international yacht clubs.",
+    images: [{ url: "/web/01-yacht-at-anchor.webp", width: 1672, height: 941, alt: "Yacht Club Galle — a new horizon in Sri Lanka" }],
     type: "website",
     locale: "en_GB",
   },
@@ -28,21 +29,13 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#ffffff",
+  themeColor: "#f6f4ef",
   colorScheme: "light",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={archivo.variable} suppressHydrationWarning>
-      <head>
-        {/* Hide reveal targets before first paint; Motion removes this for reduced-motion users. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `if(!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js-motion")`,
-          }}
-        />
-      </head>
+    <html lang="en" className={archivo.variable} data-scroll-behavior="smooth">
       <body>{children}</body>
     </html>
   );

@@ -1,6 +1,6 @@
 /**
- * Site-wide settings. Fill in CONTACT before launch.
- * Empty values show "to be added" on the page, and the matching send button explains it isn't connected yet.
+ * Public contact settings. Environment variables can override the confirmed email addresses.
+ * Optional phone details remain hidden when empty.
  * You can also set them through environment variables (see README).
  */
 export const CONTACT = {
@@ -8,14 +8,14 @@ export const CONTACT = {
   phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
   /** Digits only, with country code, e.g. "94771234567" */
   whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "",
-  /** e.g. "info@yourdomain.lk" */
-  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@dpvoffshore.lk",
+  alternateEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL_ALTERNATE?.trim() || "info@dpvoffshore.com",
   location: "Galle Port, Galle, Sri Lanka",
 };
 
 export const COMPANY = {
-  name: "DPV Offshore Marine Services (Pvt) Ltd",
-  short: "DPV Offshore",
+  name: "Yacht Club Galle",
+  short: "Yacht Club Galle",
   city: "Galle, Sri Lanka",
 };
 

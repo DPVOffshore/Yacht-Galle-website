@@ -5,6 +5,7 @@ const staticExport = process.env.STATIC_EXPORT === "true";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  trailingSlash: true,
   ...(staticExport
     ? {
         output: "export",
