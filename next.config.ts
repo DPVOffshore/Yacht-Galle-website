@@ -1,7 +1,6 @@
 import type { NextConfig } from "next";
 
-// Set by the GitHub Pages workflow (e.g. "/Yacht-Galle-website"). Builds a static export under that sub-path.
-const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+// Set by the GitHub Pages workflow: builds a static export served from the root of yachtclubgalle.com.
 const staticExport = process.env.STATIC_EXPORT === "true";
 
 const nextConfig: NextConfig = {
@@ -9,7 +8,6 @@ const nextConfig: NextConfig = {
   ...(staticExport
     ? {
         output: "export",
-        basePath: basePath || undefined,
         images: { unoptimized: true },
       }
     : {
