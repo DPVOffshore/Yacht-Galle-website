@@ -1,16 +1,21 @@
 /**
- * Public contact settings. Environment variables can override the confirmed email addresses.
- * Optional phone details remain hidden when empty.
- * You can also set them through environment variables (see README).
+ * Public contact settings, matching the contact details on www.dpvoffshore.lk.
+ * Environment variables can override the phone and email addresses (see README).
+ * Optional WhatsApp details remain hidden when empty.
  */
 export const CONTACT = {
-  /** Shown on the page, e.g. "+94 77 123 4567" */
-  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE ?? "",
+  /** 24/7 operations line, shown on the page */
+  phone: process.env.NEXT_PUBLIC_CONTACT_PHONE?.trim() || "+94 11 26 82 692",
   /** Digits only, with country code, e.g. "94771234567" */
   whatsapp: process.env.NEXT_PUBLIC_CONTACT_WHATSAPP ?? "",
   email: process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "info@dpvoffshore.lk",
   alternateEmail: process.env.NEXT_PUBLIC_CONTACT_EMAIL_ALTERNATE?.trim() || "info@dpvoffshore.com",
   location: "Galle Port, Galle, Sri Lanka",
+  headOffice: {
+    company: "DPV Offshore & Marine Services (Pvt) Ltd",
+    address: ["No. 59/2, Norris Canal Road", "Colombo 10, Sri Lanka"],
+  },
+  linkedin: "https://www.linkedin.com/company/102757900/",
 };
 
 export const COMPANY = {

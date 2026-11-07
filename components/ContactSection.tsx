@@ -52,7 +52,9 @@ export default function ContactSection() {
           <p>Tell us about your yacht, your club or the journey you have in mind. Let’s explore what a connection with Galle could look like.</p>
           <div className="contact-emails"><span className="eyebrow">Write to us</span><a href={`mailto:${CONTACT.email}`}>{CONTACT.email}<span aria-hidden="true">↗</span></a><a href={`mailto:${CONTACT.alternateEmail}`}>{CONTACT.alternateEmail}<span aria-hidden="true">↗</span></a></div>
           <div className="contact-location"><span className="location-mark" aria-hidden="true">↗</span><div><strong>Galle Harbour, Sri Lanka</strong><span>06°02′ N &nbsp; 80°12′ E</span></div></div>
-          {CONTACT.phone && <a className="contact-phone" href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>{CONTACT.phone}</a>}
+          <div className="contact-location"><span className="location-mark" aria-hidden="true">↗</span><div><strong>Head office — Colombo</strong><span>{CONTACT.headOffice.company}</span>{CONTACT.headOffice.address.map(line => <span key={line}>{line}</span>)}</div></div>
+          {CONTACT.phone && <a className="contact-phone" href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}>24/7 operations: {CONTACT.phone}</a>}
+          <a className="contact-phone" href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
         </div>
         <form onSubmit={submit} onChange={() => { setDraft(""); setNote(""); }}>
           <div className="form-grid">

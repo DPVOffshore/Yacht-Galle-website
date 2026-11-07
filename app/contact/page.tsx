@@ -5,7 +5,7 @@ import ContactSection from "@/components/ContactSection";
 
 export const metadata: Metadata = {
   title: "Contact & Enquiries | Yacht Club Galle",
-  description: "Contact Yacht Club Galle about yacht care, a future visit or an international club partnership. Reach us at info@dpvoffshore.lk or info@dpvoffshore.com.",
+  description: "Contact Yacht Club Galle about yacht care, a future visit or an international club partnership. Reach us at info@dpvoffshore.lk, info@dpvoffshore.com or +94 11 26 82 692 (24/7).",
 };
 
 export default function ContactPage() {

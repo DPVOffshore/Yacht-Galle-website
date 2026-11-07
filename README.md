@@ -20,7 +20,7 @@ Copy `.env.example` to `.env.local` and enter the public contact details before 
 - `NEXT_PUBLIC_CONTACT_EMAIL` defaults to `info@dpvoffshore.lk`.
 - `NEXT_PUBLIC_CONTACT_EMAIL_ALTERNATE` defaults to `info@dpvoffshore.com`. Both addresses appear on the Contact page and in the footer; visitors choose a recipient in the form.
 - The form opens the visitor’s email application with their enquiry filled in. The visitor must send it there; nothing is sent or stored on a server by the website. A downloadable text copy is also available.
-- `NEXT_PUBLIC_CONTACT_PHONE` optionally displays a telephone link.
+- `NEXT_PUBLIC_CONTACT_PHONE` overrides the telephone link (defaults to the 24/7 operations line, +94 11 26 82 692).
 - `NEXT_PUBLIC_SITE_URL` sets the absolute base URL used for social metadata.
 
 Rebuild after changing public environment variables. The WhatsApp setting is retained for compatibility but the current homepage does not use it.
